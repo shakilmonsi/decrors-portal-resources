@@ -2,7 +2,7 @@ import React from "react";
 import b from "../../../assets/images/treatment.png";
 const Babby = () => {
   return (
-    <div className="hero md:card-side  gap-6 mt-15 bg-base-200">
+    <div className="hero md:card-side  gap-6 mt-20 bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
         <img src={b} alt="" className="max-w-sm rounded-lg w-full shadow-2xl" />
         <div className="w-1/2">
