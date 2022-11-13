@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../../layout/Maib/Main";
+import Appointment from "../../pages/Appointment/Appointment";
 import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import Register from "../../pages/register/Register";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register></Register>,
+      },
+      {
+        path: "/appointment",
+        element: <Appointment></Appointment>,
       },
     ],
   },
