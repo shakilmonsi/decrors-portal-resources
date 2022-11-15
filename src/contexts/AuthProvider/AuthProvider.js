@@ -24,9 +24,11 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
   const updateUser = (userInfo) => {
+    setLoading(true);
     return updateProfile(user, userInfo);
   };
 
@@ -34,6 +36,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("user observing");
       setUser(currentUser);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -43,6 +46,7 @@ const AuthProvider = ({ children }) => {
     signIn,
     logOut,
     updateUser,
+    loading,
 
     user,
 
