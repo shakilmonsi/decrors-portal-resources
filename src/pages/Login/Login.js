@@ -1,32 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
-  // const { register, formState: { errors }, handleSubmit } = useForm();
-  // const { signIn } = useContext(AuthContext);
-  // const [loginError, setLoginError] = useState('');
-  // const location = useLocation();
-  // const navigate = useNavigate();
-
-  // const from = location.state?.from?.pathname || '/';
-
-  // const handleLogin = data => {
-  //     console.log(data);
-  //     setLoginError('');
-  //     signIn(data.email, data.password)
-  //         .then(result => {
-  //             const user = result.user;
-  //             console.log(user);
-  //             navigate(from, {replace: true});
-  //         })
-  //         .catch(error => {
-  //             console.log(error.message)
-  //             setLoginError(error.message);
-  //         });
-  // }
-  const { register, handleSubmit } = useForm();
+  const [errorLogin, setLoginError] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const { signIn } = useContext(AuthContext);
   const handleLogin = (data) => {
+    console.log(data);
+    setLoginError(" ");
+    signIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoginError(error.message);
+      });
     console.log(data);
   };
 
@@ -40,20 +36,30 @@ const Login = () => {
               <span className="label-text">Email</span>
             </label>
             <textarea
-              {...register("email")}
+              {...register("email", { required: "email address required" })}
               placeholder=" your email"
               className="input input-bordered w-full max-w-xs"
             />
+            {errors.email && (
+              <p className=" text-red-600">{errors.email?.message}</p>
+            )}
           </div>
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
             <textarea
-              {...register("password")}
+              {...register("password", {
+                required: "password id required",
+                minLength: {
+                  value: 6,
+                  message: "password must be 6 characters or longer",
+                },
+              })}
               placeholder="your password"
               className="input input-bordered w-full max-w-xs"
             />
+            {errors.password && <p role="alert">{errors.password?.message}</p>}
 
             <label className="label">
               <span className="label-text">Forget Password?</span>
@@ -64,6 +70,9 @@ const Login = () => {
             value="Login"
             type="submit"
           />
+          <div>
+            {errorLogin && <p className="text-red-600">{errorLogin}</p>}
+          </div>
         </form>
         <p>
           New to Doctors Portal
