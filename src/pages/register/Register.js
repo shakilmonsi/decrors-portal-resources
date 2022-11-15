@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
@@ -9,14 +10,27 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const [signUpError, setSignUpError] = useState("");
+  const { createUser, updateUser } = useContext(AuthContext);
 
   const handleSignUp = (data) => {
-    createUser(data.email, data.password).then((result) => {
-      const user = result.user;
-      console.log(user);
-    });
-    console.log(data);
+    setSignUpError("");
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast("user signUp successFully----");
+        const userInfo = {
+          displayName: data.name,
+        };
+        updateUser(userInfo)
+          .then(() => {})
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => {
+        console.log(err);
+        setSignUpError(err.message);
+      });
   };
 
   return (
@@ -50,7 +64,6 @@ const Register = () => {
           </div>
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              {" "}
               <span className="label-text">Password</span>
             </label>
             <input
@@ -78,6 +91,7 @@ const Register = () => {
             value="signup"
             type="submit"
           />
+          {signUpError && <p className="text-red-600 ">{signUpError}</p>}
         </form>
         <p>
           New to Doctors Portal
