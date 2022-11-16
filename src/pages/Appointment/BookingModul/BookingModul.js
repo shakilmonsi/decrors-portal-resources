@@ -6,8 +6,10 @@ import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import reportWebVitals from "../../../reportWebVitals";
 
 const BookingModul = ({ treatment, setTratment, selectedData }) => {
+  const { user } = useContext(AuthContext);
+
   const date = format(selectedData, "PP");
-  const { name, slots } = treatment;
+  const { name: treatmentName, slots } = treatment;
   const handleSubmit = (event) => {
     event.preventDefault();
     const from = event.target;
@@ -17,7 +19,7 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
     const phone = from.phone.value;
     const booking = {
       appointmentDat: date,
-      treatment: name,
+      treatment: treatmentName,
       patient: name,
       slot,
       email,
@@ -27,7 +29,7 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
     fetch("http://localhost:5000/bookings", {
       method: "POST",
       headers: {
-        "content-type": "application",
+        "content-type": "application/json",
       },
       body: JSON.stringify(booking),
     })
@@ -38,7 +40,6 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
         setTratment(null);
       });
   };
-  const { user } = useContext(AuthContext);
   return (
     <>
       <input type="checkbox" id="booking-module" className="modal-toggle" />
@@ -50,11 +51,11 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">{name}</h3>
+          <h3 className="text-lg font-bold">{treatmentName}</h3>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 mt-7">
             <input
               type="text"
-              value={data}
+              value={date}
               className="input input-bordered w-full "
             />
             <select name="slot" className="select select-ghost w-full">
@@ -68,7 +69,6 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
               name="name"
               type="text"
               defaultValue={user?.displayName}
-              disabled
               placeholder="Your Name"
               className="input w-full input-bordered"
             />

@@ -7,11 +7,11 @@ import SengelApponmentOption from "./SengleApponmentOption/SengelApponmentOption
 const AvablablAppointment = ({ selectedData }) => {
   // const [appointmentOptionss, setAppointmentOptions] = useState([]);
   const [treatment, setTratment] = useState(null);
-
+  const date = format(selectedData, "PP");
   const { data: appointmentOptionss = [] } = useQuery({
-    queryKey: ["appointmentOptions"],
+    queryKey: ["appointmentOptions", date],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/apponment");
+      const res = await fetch(`http://localhost:5000/apponment?date=${date}`);
       const data = await res.json();
       return data;
     },
