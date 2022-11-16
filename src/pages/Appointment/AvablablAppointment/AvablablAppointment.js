@@ -1,16 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BookingModul from "../BookingModul/BookingModul";
 import SengelApponmentOption from "./SengleApponmentOption/SengelApponmentOption";
 
 const AvablablAppointment = ({ selectedData }) => {
-  const [appointmentOptionss, setAppointmentOptions] = useState([]);
+  // const [appointmentOptionss, setAppointmentOptions] = useState([]);
   const [treatment, setTratment] = useState(null);
-  useEffect(() => {
-    fetch("sev.json")
-      .then((res) => res.json())
-      .then((data) => setAppointmentOptions(data));
-  }, []);
+
+  const { data: appointmentOptionss = [] } = useQuery({
+    queryKey: ["appointmentOptions"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:5000/apponment");
+      const data = await res.json();
+      return data;
+    },
+  });
+
+  // useEffect(() => {
+  // fetch("http://localhost:5000/apponment").then((res) => res.json());
+  //     .then((data) => setAppointmentOptions(data));
+  // }, []);
   return (
     <section className="my-16">
       <p className="text-center font-bold text-primary">
