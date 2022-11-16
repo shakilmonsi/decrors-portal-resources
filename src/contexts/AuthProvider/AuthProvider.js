@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
   };
   const updateUser = (userInfo) => {
     setLoading(true);
-    return updateProfile(user, userInfo);
+    return updateProfile(user.currentUser, userInfo);
   };
 
   useEffect(() => {
