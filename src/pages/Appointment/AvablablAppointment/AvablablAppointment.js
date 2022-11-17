@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import Spiner from "../../../searead/Spiner/Spiner";
 import BookingModul from "../BookingModul/BookingModul";
 import SengelApponmentOption from "./SengleApponmentOption/SengelApponmentOption";
 
@@ -8,19 +9,24 @@ const AvablablAppointment = ({ selectedData }) => {
   // const [appointmentOptionss, setAppointmentOptions] = useState([]);
   const [treatment, setTratment] = useState(null);
   const date = format(selectedData, "PP");
-  const { data: appointmentOptionss = [] } = useQuery({
+  const {
+    data: appointmentOptionss = [],
+    refetch,
+    isloading: isLoading,
+  } = useQuery({
     queryKey: ["appointmentOptions", date],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/apponment?date=${date}`);
+      const res = await fetch(
+        `http://localhost:5000/v2/apponment?date=${date}`
+      );
       const data = await res.json();
       return data;
     },
   });
+  if (isLoading) {
+    return <Spiner></Spiner>;
+  }
 
-  // useEffect(() => {
-  // fetch("http://localhost:5000/apponment").then((res) => res.json());
-  //     .then((data) => setAppointmentOptions(data));
-  // }, []);
   return (
     <section className="my-16">
       <p className="text-center font-bold text-primary">
@@ -41,6 +47,7 @@ const AvablablAppointment = ({ selectedData }) => {
           treatment={treatment}
           setTratment={setTratment}
           selectedData={selectedData}
+          refetch={refetch}
         ></BookingModul>
       )}
     </section>

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import reportWebVitals from "../../../reportWebVitals";
 
-const BookingModul = ({ treatment, setTratment, selectedData }) => {
+const BookingModul = ({ treatment, setTratment, selectedData, refetch }) => {
   const { user } = useContext(AuthContext);
 
   const date = format(selectedData, "PP");
@@ -35,9 +35,10 @@ const BookingModul = ({ treatment, setTratment, selectedData }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        toast.success("booking confirm");
-        console.log(data);
         setTratment(null);
+        toast.success("booking confirm");
+        refetch();
+        console.log(data);
       });
   };
   return (

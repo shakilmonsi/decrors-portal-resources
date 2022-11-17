@@ -7,6 +7,7 @@ const Appointment = () => {
 
   return (
     <div>
+      a
       <AppointmentBanner
         selectedData={selectedData}
         setSelectedData={setSelectedData}
