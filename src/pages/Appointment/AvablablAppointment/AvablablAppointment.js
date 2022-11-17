@@ -9,6 +9,7 @@ const AvablablAppointment = ({ selectedData }) => {
   // const [appointmentOptionss, setAppointmentOptions] = useState([]);
   const [treatment, setTratment] = useState(null);
   const date = format(selectedData, "PP");
+  console.log(date);
   const {
     data: appointmentOptionss = [],
     refetch,
@@ -16,9 +17,7 @@ const AvablablAppointment = ({ selectedData }) => {
   } = useQuery({
     queryKey: ["appointmentOptions", date],
     queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/v2/apponment?date=${date}`
-      );
+      const res = await fetch(`http://localhost:5000/apponment?date=${date}`);
       const data = await res.json();
       return data;
     },

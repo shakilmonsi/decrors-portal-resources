@@ -25,6 +25,7 @@ const BookingModul = ({ treatment, setTratment, selectedData, refetch }) => {
       email,
       phone,
     };
+    console.log(booking);
 
     fetch("http://localhost:5000/bookings", {
       method: "POST",
@@ -35,10 +36,14 @@ const BookingModul = ({ treatment, setTratment, selectedData, refetch }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setTratment(null);
-        toast.success("booking confirm");
-        refetch();
         console.log(data);
+        if (data.acknowledged) {
+          // setTratment(null);
+          toast.success("booking confirmed");
+          refetch();
+        } else {
+          toast.error(data.message);
+        }
       });
   };
   return (

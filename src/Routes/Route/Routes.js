@@ -1,10 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import DeshboardLayout from "../../layout/DashbordLauout/DeshboardLayout";
+import MyAppointment from "../../layout/DashbordLauout/MyAppointment/MyAppointment";
 import Main from "../../layout/Maib/Main";
 import Appointment from "../../pages/Appointment/Appointment";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import Register from "../../pages/register/Register";
+import PraivatsRoutes from "../PraivatRoutes/PraivatsRoutes";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +34,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: <DeshboardLayout></DeshboardLayout>,
+    children: [
+      {
+        path: "/dashboard",
+        element: <MyAppointment></MyAppointment>,
+      },
+    ],
   },
 ]);
 export default router;
