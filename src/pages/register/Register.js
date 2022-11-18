@@ -11,8 +11,8 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
 
   const [signUpError, setSignUpError] = useState("");
   const { createUser, updateUser } = useContext(AuthContext);
@@ -23,14 +23,18 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
         toast("user signUp successFully----");
         const userInfo = {
           displayName: data.name,
         };
-        updateUser(userInfo)
-          .then(() => {})
-          .catch((err) => console.log(err));
+
+        saveUser(data.name, data.email);
+
+        // updateUser(userInfo)
+        //   .then(() => {
+        //   })
+        //   .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -38,6 +42,32 @@ const Register = () => {
       });
   };
 
+  // add saveUsers class 75-3 -------.
+  const saveUser = (name, email) => {
+    const user = { name, email };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        getUserToken(email);
+      });
+  };
+
+  const getUserToken = (email) => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem("accessToken", data.accessToken);
+          navigate("/");
+        }
+      });
+  };
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7">
