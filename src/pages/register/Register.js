@@ -32,7 +32,7 @@ const Register = () => {
         const user = result.user;
         console.log(user);
         // navigate(from, { replace: true });
-        toast("user signUp successFully----");
+        toast.success("user signUp successFully----");
         const userInfo = {
           displayName: data.name,
         };
