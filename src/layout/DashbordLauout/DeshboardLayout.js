@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Header from "../../pages/Home/sheareds/Header/Header";
 
 const DeshboardLayout = () => {
@@ -20,10 +20,10 @@ const DeshboardLayout = () => {
           <label htmlFor="deshboard-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-80 bg-base-100 text-base-content">
             <li>
-              <a>Sidebar Item 1</a>
+              <Link to="/dashboard"> MY Appointments</Link>
             </li>
             <li>
-              <a>Sidebar Item 2</a>
+              <Link to="/dashboard/users"> All Users</Link>
             </li>
           </ul>
         </div>
