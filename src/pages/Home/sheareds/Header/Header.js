@@ -28,7 +28,7 @@ const Header = () => {
             <Link to="/dashboard">Dashboard</Link>
           </li>
           <li>
-            <button onClick={handleLogOut}>sign Out</button>
+            <button onClick={handleLogOut}>Sign out</button>
           </li>
         </>
       ) : (
@@ -36,9 +36,6 @@ const Header = () => {
           <Link to="/login">Login</Link>
         </li>
       )}
-      <li>
-        <Link to="/signup">Register</Link>
-      </li>
     </React.Fragment>
   );
   return (

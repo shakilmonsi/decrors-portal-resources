@@ -8,7 +8,7 @@ const PraivatsRoutes = ({ children }) => {
   if (loading) {
     return <progress className="progress w-56 bg-red-700"></progress>;
   }
-  if (!user) {
+  if (user) {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace />;
