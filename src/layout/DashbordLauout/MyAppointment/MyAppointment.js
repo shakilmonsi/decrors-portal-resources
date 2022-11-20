@@ -21,6 +21,7 @@ const MyAppointment = () => {
       return data;
     },
   });
+  //    const url = `https://api.imgbb.com/1/upload?key=fe1fc1f2ca4647c6d6e78e6cca75b757`;
 
   return (
     <div>
