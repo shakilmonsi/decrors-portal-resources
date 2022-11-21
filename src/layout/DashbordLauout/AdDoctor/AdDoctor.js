@@ -3,9 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../../pages/Loading/Loading";
 
 const AdDoctor = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,49 +39,32 @@ const AdDoctor = () => {
       .then((imgData) => {
         if (imgData.success) {
           console.log(imgData.data.url);
-          //  const doctor={
-          //  name:data.name,
-          //   email:data.email,
-          //     specialty: data.specialty,
-          //       image: imgData.data.url
+          const doctor = {
+            name: data.name,
+            email: data.email,
+            specialty: data.specialty,
+            image: imgData.data.url,
+          };
 
-          //       }
+          // save doctor information to the database class 76-5;
 
-          //save doctor information to the database class 76-5;
-
-          // fetch("http://localhost:5000/doctors", {
-          //   method: "POST",
-          //   headers: {
-          //     "content-type": "application/json",
-          //     authorization: `bearer ${localStorage.getItem("accessToken")}`,
-          //   },
-          //   body: JSON.stringify(doctor),
-          // })
-          //   .then((res) => res.json())
-          //   .then((result) => {
-          //     console.log(result);
-          //     toast.success(`${data.name} is added successfully`);
-          //     navigate("/dashboard/managedoctors");
-          //   });
+          fetch("http://localhost:5000/doctors", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+            body: JSON.stringify(doctor),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              console.log(result);
+              toast.success(`${data.name} is added successfully`);
+              navigate("/dashboard/managedoctors");
+            });
         }
         console.log(imgData);
       });
-
-    // const image = data.image[0];
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
-    // fetch(url, {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((res) => res.json())
-    //   .then((imgData) => {
-    //     console.log(imgData);
-    //     // if (imgData.success) {
-    //     //   console.log(imgData.data.url);
-    //     // }
-    //   });
   };
   if (isLoading) {
     return <Loading></Loading>;
