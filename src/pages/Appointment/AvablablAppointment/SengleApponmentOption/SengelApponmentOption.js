@@ -1,7 +1,7 @@
 import React from "react";
 
 const SengelApponmentOption = ({ option, setTratment }) => {
-  const { name, slots } = option;
+  const { name, price, slots } = option;
 
   return (
     <div className="card shadow-xl">
@@ -10,6 +10,9 @@ const SengelApponmentOption = ({ option, setTratment }) => {
         <p>{slots.length > 0 ? slots[0] : "try Another day"}</p>
         <p>
           {slots.length} {slots.length > 1 ? "spaces" : "space"}available
+        </p>
+        <p>
+          <small>TK:$ {price}</small>
         </p>
 
         <div className="card-actions justify-center">
