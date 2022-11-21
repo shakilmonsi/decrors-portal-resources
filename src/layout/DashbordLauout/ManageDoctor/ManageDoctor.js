@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import Loading from "../../../pages/Loading/Loading";
 import ConfirmationModal from "../../../searead/confirmationModal/ConfirmationModal";
 
@@ -8,10 +9,13 @@ const ManageDoctor = () => {
   const closeModal = () => {
     setDeletingDoctor(null);
   };
-  const handleDeleteDoctor = (doctor) => {
-    console.log(doctor);
-  };
-  const { data: doctors, isLoading } = useQuery({
+
+  //add class 76=7-6--------------------
+  const {
+    data: doctors,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
       try {
@@ -27,6 +31,24 @@ const ManageDoctor = () => {
       } catch (error) {}
     },
   });
+  //class add delete function   okm--------------------------
+
+  const handleDeleteDoctor = (doctor) => {
+    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          refetch();
+          toast.success(`Doctor ${doctor.name} deleted successfully`);
+        }
+      });
+  };
+
   if (isLoading) {
     return <Loading></Loading>;
   }
@@ -78,7 +100,7 @@ const ManageDoctor = () => {
           title={`Are you sure you want to delete?`}
           message={`If you delete ${deletingDoctor.name}. It cannot be undone.`}
           successAction={handleDeleteDoctor}
-          //   successButtonName="Delete"
+          successButtonName="Delete"
           modalData={deletingDoctor}
           closeModal={closeModal}
         ></ConfirmationModal>
