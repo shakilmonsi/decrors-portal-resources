@@ -8,6 +8,7 @@ import Main from "../../layout/Maib/Main";
 import Appointment from "../../pages/Appointment/Appointment";
 import Payment from "../../pages/Dashboard/Payment/Payment";
 import Home from "../../pages/Home/Home";
+import Displayerror from "../../pages/Home/sheareds/DisplayError/Displayerror";
 import Login from "../../pages/Login/Login";
 import Register from "../../pages/register/Register";
 import PraivatsRoutes from "../PraivatRoutes/PraivatsRoutes";
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <Displayerror></Displayerror>,
     children: [
       {
         path: "/",
@@ -43,6 +45,8 @@ const router = createBrowserRouter([
         <DeshboardLayout></DeshboardLayout>
       </PraivatsRoutes>
     ),
+    errorElement: <Displayerror></Displayerror>,
+
     children: [
       {
         path: "/dashboard",
@@ -76,6 +80,8 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/payment/:id",
         element: <Payment></Payment>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/bookings/${params.id}`),
       },
     ],
   },
