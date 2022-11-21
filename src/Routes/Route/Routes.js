@@ -6,6 +6,7 @@ import ManageDoctor from "../../layout/DashbordLauout/ManageDoctor/ManageDoctor"
 import MyAppointment from "../../layout/DashbordLauout/MyAppointment/MyAppointment";
 import Main from "../../layout/Maib/Main";
 import Appointment from "../../pages/Appointment/Appointment";
+import Payment from "../../pages/Dashboard/Payment/Payment";
 import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import Register from "../../pages/register/Register";
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             <ManageDoctor></ManageDoctor>
           </AdminRoutes>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: <Payment></Payment>,
       },
     ],
   },
